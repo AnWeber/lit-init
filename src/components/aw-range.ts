@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 @customElement("aw-range")
 export class AwRange extends LitElement {
@@ -27,6 +28,8 @@ export class AwRange extends LitElement {
   public min = 0;
   @property()
   public max = 100;
+  @property()
+  public name: string | undefined;
 
   @property()
   public helplines: Array<string> | Record<string, number> = [];
@@ -44,11 +47,12 @@ export class AwRange extends LitElement {
     return html` <hr class="track" />
       <hr
         class="track track-selected ${this.isDisabled
-          ? "track-selected--disabled"
+          ? "track-selected--range-disabled"
           : ""}"
       />
       <input
         class="range"
+        name="${ifDefined(this.name)}"
         type="range"
         step="${this.step}"
         min="${this.min}"
@@ -113,7 +117,7 @@ export class AwRange extends LitElement {
 
   private refreshTrackPosition() {
     this.style.setProperty(
-      "--track-selected-position",
+      "--range-track-selected-position",
       `${(100 * this.value) / this.max}%`
     );
   }
@@ -122,18 +126,18 @@ export class AwRange extends LitElement {
     :host {
       position: relative;
       display: inline-block;
-      --track-size: 0.1rem;
-      --track-color: #b0bec5;
-      --track-selected-size: 0.2rem;
-      --track-selected-color: #546e7a;
-      --thumb-color: #1976d2;
-      --thumb-border-color: #fff;
-      --thumb--border-size: 2px;
-      --thumb-color-focus: #0d47a1;
-      --thumb-color-disabled: #b0bec5;
-      --thumb-size: 1rem;
-      --helpline-width: 0.05rem;
-      --helpline-color: #b0bec5;
+      --range-track-size: 0.1rem;
+      --range-track-color: #b0bec5;
+      --range-track-selected-size: 0.2rem;
+      --range-track-selected-color: #546e7a;
+      --range-thumb-color: #1976d2;
+      --range-thumb-border-color: #fff;
+      --range-thumb-border-size: 2px;
+      --range-thumb-color-focus: #0d47a1;
+      --range-thumb-color-disabled: #b0bec5;
+      --range-thumb-size: 1rem;
+      --range-helpline-width: 0.05rem;
+      --range-helpline-color: #b0bec5;
     }
     .range {
       -webkit-appearance: none;
@@ -165,14 +169,14 @@ export class AwRange extends LitElement {
       -webkit-appearance: none; /* Override default look */
       appearance: none;
 
-      background-color: var(--thumb-color);
+      background-color: var(--range-thumb-color);
       transition: background-color 0.5s;
       border-radius: 50%;
-      border-width: var(--thumb--border-size);
-      border-color: var(--thumb-border-color);
+      border-width: var(--range-thumb-border-size);
+      border-color: var(--range-thumb-border-color);
       border-style: solid;
-      height: var(--thumb-size);
-      width: var(--thumb-size);
+      height: var(--range-thumb-size);
+      width: var(--range-thumb-size);
       position: relative;
       z-index: 1;
     }
@@ -180,67 +184,67 @@ export class AwRange extends LitElement {
       -webkit-appearance: none; /* Override default look */
       appearance: none;
 
-      background: var(--thumb-color);
+      background: var(--range-thumb-color);
       transition: background-color 0.5s;
       border-radius: 50%;
-      border-width: var(--thumb--border-size);
-      border-color: var(--thumb-border-color);
+      border-width: var(--range-thumb-border-size);
+      border-color: var(--range-thumb-border-color);
       border-style: solid;
-      height: var(--thumb-size);
-      width: var(--thumb-size);
+      height: var(--range-thumb-size);
+      width: var(--range-thumb-size);
       position: relative;
       z-index: 1;
     }
 
     .range:focus::-webkit-slider-thumb {
-      background: var(--thumb-color-focus);
+      background: var(--range-thumb-color-focus);
     }
     .range:focus::-moz-range-thumb {
-      background: var(--thumb-color-focus);
+      background: var(--range-thumb-color-focus);
     }
     .range:disabled::-webkit-slider-thumb {
-      background: var(--thumb-color-disabled);
+      background: var(--range-thumb-color-disabled);
     }
     .range:disabled::-moz-range-thumb {
-      background: var(--thumb-color-disabled);
+      background: var(--range-thumb-color-disabled);
     }
     .track {
       position: absolute;
       z-index: 1;
-      width: calc(100% - var(--thumb-size));
-      left: calc(var(--thumb-size) / 2);
-      background: var(--track-color);
-      height: var(--track-size);
+      width: calc(100% - var(--range-thumb-size));
+      left: calc(var(--range-thumb-size) / 2);
+      background: var(--range-track-color);
+      height: var(--range-track-size);
       border: 0px;
       margin: 0;
-      top: calc(50% - var(--track-size) / 2);
+      top: calc(50% - var(--range-track-size) / 2);
       pointer-events: none;
     }
     .track-selected {
-      height: var(--track-selected-size, --track-size);
+      height: var(--range-track-selected-size, --range-track-size);
       transform-origin: center left;
-      transform: scaleX(var(--track-selected-position));
-      background: var(--track-selected-color);
-      top: calc(50% - var(--track-selected-size, --track-size) / 2);
+      transform: scaleX(var(--range-track-selected-position));
+      background: var(--range-track-selected-color);
+      top: calc(50% - var(--range-track-selected-size, --range-track-size) / 2);
     }
-    .track-selected--disabled {
+    .track-selected--range-disabled {
       display: none;
     }
     .helplines {
       position: absolute;
-      width: calc(100% - var(--thumb-size));
-      padding: 0 calc(var(--thumb-size) / 2);
-      height: var(--thumb-size);
+      width: calc(100% - var(--range-thumb-size));
+      padding: 0 calc(var(--range-thumb-size) / 2);
+      height: var(--range-thumb-size);
       top: 0px;
       box-sizing: border-box;
-      left: calc(var(--thumb-size) / 2);
+      left: calc(var(--range-thumb-size) / 2);
     }
     .helpline {
       top: 0;
       height: 100%;
       position: absolute;
-      width: var(--helpline-width);
-      background: var(--helpline-color);
+      width: var(--range-helpline-width);
+      background: var(--range-helpline-color);
       cursor: pointer;
     }
     .helpline {
