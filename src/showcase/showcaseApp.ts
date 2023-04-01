@@ -10,16 +10,25 @@ export class ShowcaseApp extends LitElement {
   @state()
   public value: string | null = null;
 
-  private helplines = ["25%", "50%", "75%"]
+  private helplines = ["0%", "25%", "50%", "75%", "100%"];
 
   render() {
     return html` <div>
-      <aw-range
-        @input="${(evt: InputEvent) => this.changeInput(evt)}"
-        .helplines="${this.helplines}"
-      ></aw-range>
-      <input type="range">
-      <div>${this.value}</div>
+      <fieldset>
+        <legend>Range</legend>
+        <aw-range
+          @input="${(evt: InputEvent) => this.changeInput(evt)}"
+          .helplines="${this.helplines}"
+        ></aw-range>
+        <aw-range
+          @input="${(evt: InputEvent) => this.changeInput(evt)}"
+          disabled
+          .helplines="${this.helplines}"
+        ></aw-range>
+        <input type="range">
+        <input type="range">
+        <div>${this.value}</div>
+      </fieldset>
     </div>`;
   }
 
