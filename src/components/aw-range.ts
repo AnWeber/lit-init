@@ -146,6 +146,10 @@ export class AwRange extends LitElement {
       margin: 0;
     }
 
+    .range:disabled{
+      cursor: initial;
+    }
+
     .range:focus {
       outline: none;
     }
@@ -240,7 +244,7 @@ export class AwRange extends LitElement {
       cursor: pointer;
     }
     .helpline {
-      cursor: unset;
+      cursor: initial;
     }
   `;
 }
