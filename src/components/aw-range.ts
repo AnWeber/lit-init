@@ -1,8 +1,8 @@
 import { LitElement, css, html } from "lit";
-import {  property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
-import {ifDefined} from 'lit/directives/if-defined.js';
-import { customElementIfNotExists } from './custom-element';
+import { ifDefined } from "lit/directives/if-defined.js";
+import { customElementIfNotExists } from "./custom-element";
 
 @customElementIfNotExists("aw-range")
 export class AwRange extends LitElement {
@@ -92,21 +92,17 @@ export class AwRange extends LitElement {
           }
         }
       };
-      template = html` <div class="helplines">
-        ${repeat(
-          Object.entries(helpLines),
-          ([title, value]) => html`<div
-            class="helpline ${this.isDisabled
-          ? "helpline--disabled"
-          : ""}"
-            title="${title}"
-            @click="${() => {
-              setValue(value);
-            }}"
-            style="left: calc(${(value / this.max) * 100}%"
-          ></div> `
-        )}
-      </div>`;
+      template = html` ${repeat(
+        Object.entries(helpLines),
+        ([title, value]) => html`<div
+          class="helpline ${this.isDisabled ? "helpline--disabled" : ""}"
+          title="${title}"
+          @click="${() => {
+            setValue(value);
+          }}"
+          style="--helpline-position: ${(value / this.max)};"
+        ></div> `
+      )}`;
     }
     return template;
   }
@@ -151,7 +147,7 @@ export class AwRange extends LitElement {
       margin: 0;
     }
 
-    .range:disabled{
+    .range:disabled {
       cursor: initial;
     }
 
@@ -161,9 +157,11 @@ export class AwRange extends LitElement {
 
     .range::-moz-range-track {
       background-color: transparent;
+      width: 100%;
     }
     .range::-webkit-slider-runnable-track {
       background-color: transparent;
+      width: 100%;
     }
 
     .range::-moz-range-thumb {
@@ -246,9 +244,10 @@ export class AwRange extends LitElement {
       position: absolute;
       width: var(--range-helpline-width);
       background: var(--range-helpline-color);
+      left: calc((var(--range-thumb-size) / 2) + var(--helpline-position) * (100% - var(--range-thumb-size)));
       cursor: pointer;
     }
-    .helpline {
+    .helpline--disabled {
       cursor: initial;
     }
   `;
