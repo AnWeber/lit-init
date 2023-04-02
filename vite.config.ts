@@ -24,7 +24,7 @@ type M3U8Cache = {
 const responseCache: Record<string, M3U8Cache> = {};
 
 export default defineConfig({
-  publicDir: './streams',
+  base: '/lit-inputs/',
   plugins: [
     eslint({
       failOnWarning: false,
