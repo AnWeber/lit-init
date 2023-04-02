@@ -45,9 +45,10 @@ export class ShowcaseApp extends LitElement {
           checked="true"
           disabled
         ></aw-switch>
-        <label><input type="checkbox" />Click Me</label>
+        <label><input type="checkbox"/>Click Me</label>
+        <label><input type="checkbox" indeterminate/>Click Me</label>
 
-        <label> <input type="checkbox" />Click Me</label>
+        <label> <input type="checkbox" disabled/>Click Me</label>
         <div>${this.switchValue}</div>
       </fieldset>
     </div>`;

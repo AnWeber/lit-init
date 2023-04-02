@@ -1,9 +1,10 @@
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {  property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import {ifDefined} from 'lit/directives/if-defined.js';
+import { customElementIfNotExists } from './custom-element';
 
-@customElement("aw-range")
+@customElementIfNotExists("aw-range")
 export class AwRange extends LitElement {
   constructor() {
     super();
