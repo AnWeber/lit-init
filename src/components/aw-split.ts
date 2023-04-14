@@ -33,6 +33,7 @@ export class AwSplit extends LitElement {
     for (const dispose of this.disposables) {
       dispose();
     }
+    this.disposables.length = 0;
     delete this.dragState;
   }
 
@@ -186,7 +187,7 @@ export class AwSplit extends LitElement {
   public static override styles = css`
     :host {
       --splitter-position: 50%;
-      --splitter-size: 10px;
+      --splitter-size: 1rem;
       display: flex;
       overflow: hidden !important;
       transform: translateZ(0);
@@ -203,18 +204,20 @@ export class AwSplit extends LitElement {
       justify-content: center;
       border: none;
       cursor: ew-resize;
-      flex: none;
+      flex: 0 0 0;
       position: relative;
       z-index: 1;
       overflow: visible;
       min-width: var(--splitter-size);
       min-height: var(--splitter-size);
     }
+    :host([orientation="vertical"]) > [part="splitter"] {
+      cursor: ns-resize;
+    }
     svg{
-      height: 1rem;
+      height: var(--splitter-size);
       transform: rotate(90deg);
     }
-
     :host([orientation="vertical"]) svg {
       transform: initial;
     }
@@ -228,9 +231,6 @@ export class AwSplit extends LitElement {
     }
     :host ::slotted([slot="secondary"]) {
       flex: 1 1 calc(100% - var(--splitter-position) - var(--splitter-size));
-    }
-    :host([orientation="vertical"]) > [part="splitter"] {
-      cursor: ns-resize;
     }
   `;
 }
