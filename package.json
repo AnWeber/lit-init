@@ -17,7 +17,7 @@
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
     "jsdom": "^21.1.1",
-    "vite": "^4.5.5",
+    "vite": "^4.5.9",
     "vite-plugin-eslint": "^1.8.1",
     "vitest": "^0.30.1"
   }
